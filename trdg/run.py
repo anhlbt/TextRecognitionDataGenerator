@@ -111,7 +111,7 @@ def parse_arguments():
         type=int,
         nargs="?",
         help="Define the height of the produced images if horizontal, else the width",
-        default=32,
+        default=32, #32
     )
     parser.add_argument(
         "-t",
@@ -172,7 +172,7 @@ def parse_arguments():
         type=int,
         nargs="?",
         help="Define what kind of background to use. 0: Gaussian Noise, 1: Plain white, 2: Quasicrystal, 3: Image",
-        default=0,
+        default=5,
     )
     parser.add_argument(
         "-hw",
@@ -256,7 +256,15 @@ def parse_arguments():
         type=int,
         nargs="?",
         help="Define the width of the spaces between characters. 2 means two pixels",
-        default=0,
+        default=10,
+    )
+    parser.add_argument(
+        "-dbb",
+        "--draw_bounding_box",
+        type=int,
+        nargs="?",
+        help="how many percent do you want to create bounding box by letter",
+        default=10,
     )
     parser.add_argument(
         "-m",
@@ -384,7 +392,8 @@ def main():
     elif args.input_file != "":
         strings = create_strings_from_file(args.input_file, args.count)
     elif args.random_sequences:
-        strings = create_strings_randomly(
+        strings = create_strings_randomly(  #use here anhlbt
+
             args.length,
             args.random,
             args.count,
@@ -419,15 +428,16 @@ def main():
         strings = [x.lower() for x in strings]
 
     string_count = len(strings)
-
+    font_lst = [fonts[rnd.randrange(0, len(fonts))] for _ in range(0, string_count)]
     p = Pool(args.thread_count)
     for _ in tqdm(
         p.imap_unordered(
             FakeTextDataGenerator.generate_from_tuple,
             zip(
+                [args.draw_bounding_box] * string_count,
                 [i for i in range(0, string_count)],
                 strings,
-                [fonts[rnd.randrange(0, len(fonts))] for _ in range(0, string_count)],
+                font_lst,
                 [args.output_dir] * string_count,
                 [args.format] * string_count,
                 [args.extension] * string_count,
@@ -470,7 +480,8 @@ def main():
                 file_name = str(i) + "." + args.extension
                 if args.space_width == 0:
                     file_name = file_name.replace(" ", "")
-                f.write("{} {}\n".format(file_name, strings[i]))
+                # f.write("{}\t{}\t{}\n".format(file_name, strings[i], font_lst[i]))
+                f.write("{}\t{}\n".format(file_name, strings[i]))
 
 
 if __name__ == "__main__":

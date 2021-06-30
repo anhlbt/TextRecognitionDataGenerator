@@ -92,7 +92,8 @@ class GeneratorFromRandom:
         )
 
     def __iter__(self):
-        return self
+        return self.generator
+        # return self
 
     def __next__(self):
         if self.generated_count == self.count:
@@ -112,3 +113,24 @@ class GeneratorFromRandom:
                 self.language,
             )
         return self.generator.next()
+
+
+
+    # def __iter__(self):
+    #     return self.generator
+
+    # def __next__(self):
+    #     return self.next()
+
+    # def next(self):
+    #     if self.generator.generated_count >= 999:
+    #         self.generator.strings = create_strings_randomly(
+    #             self.length,
+    #             self.allow_variable,
+    #             1000,
+    #             self.use_letters,
+    #             self.use_numbers,
+    #             self.use_symbols,
+    #             self.language,
+    #         )
+    #     return self.generator.next()

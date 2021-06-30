@@ -1,0 +1,67 @@
+	image	text	font
+42	42.jpg	662 54 49694604  21	fonts/go/NotoSansEgyptianHieroglyphs-Regular.ttf
+46	46.jpg	6  68639  06936 2  00 99	fonts/go/NotoSansLycian-Regular.ttf
+52	52.jpg	5972198  833 532  5013 0 42	fonts/go/NotoSansSyriac-Thin.ttf
+59	59.jpg	830737 195	fonts/go/NotoSerifMyanmar-Thin.ttf
+64	64.jpg	335104610 189 693258557	fonts/go/NotoSerifTibetan[wght].ttf
+71	71.jpg	03 08383	fonts/go/NotoSansThaiLooped-Medium.ttf
+79	79.jpg	699144253 6 60568  941 889	fonts/go/NotoSansOsage-Regular.ttf
+90	90.jpg	1 5 3631270084 9945	fonts/go/NotoSansShavian-Regular.ttf
+94	94.jpg	749366 319 874  51	fonts/go/LaoMuangKhong-Regular.ttf
+108	108.jpg	464	fonts/go/NotoSansHanifiRohingya[wght].ttf
+113	113.jpg	387994	fonts/go/NotoSansHebrew[wdth,wght].ttf
+115	115.jpg	787388058 745 233	fonts/go/NotoSansMyanmarUI-Medium.ttf
+126	126.jpg	40666  43	fonts/go/NotoSansOldItalic-Regular.ttf
+157	157.jpg	5721 25212	fonts/go/NotoSansMyanmar-ExtraLight.ttf
+165	165.jpg	 859 033	fonts/go/NotoSansMyanmarUI-Thin.ttf
+188	188.jpg	6874401439 3833612151 89	fonts/go/NotoSansMendeKikakui-Regular.ttf
+193	193.jpg	447 0 3901 5 60971162 50	fonts/go/NotoSansTaiLe-Regular.ttf
+208	208.jpg	17 3984094	fonts/go/NotoSerifNyiakengPuachueHmong[wght].ttf
+219	219.jpg	858 0 70 2 11 5776	fonts/go/NotoSerifEthiopic[wdth,wght].ttf
+237	237.jpg	 5628	fonts/go/LibreBarcode39Text-Regular.ttf
+251	251.jpg	36  26 	fonts/go/NotoSansInscriptionalParthian-Regular.ttf
+257	257.jpg	770660740 3201518188	fonts/go/NotoSansJavanese-Bold.ttf
+260	260.jpg	4839191	fonts/go/NotoSansOldPermic-Regular.ttf
+289	289.jpg	4291  789894 81 19 205	fonts/go/NotoSansBalinese[wght].ttf
+350	350.jpg	 2052 6902 8  88129165 	fonts/go/NotoSansHebrew[wdth,wght].ttf
+367	367.jpg	0718639 07 312	fonts/go/NotoSansSogdian-Regular.ttf
+392	392.jpg	35692482 1094209  22 7 91	fonts/go/Monofett.ttf
+393	393.jpg	07162	fonts/go/NotoSansMongolian-Regular.ttf
+414	414.jpg	06 921812803 50 70	fonts/go/RedactedScript-Regular.ttf
+425	425.jpg	4567 	fonts/go/LibreBarcode128-Regular.ttf
+438	438.jpg	83592	fonts/go/NotoSansAvestan-Regular.ttf
+439	439.jpg	72986 	fonts/go/NotoSansGlagolitic-Regular.ttf
+444	444.jpg	4723006634 45 603047 28815	fonts/go/NotoSansMarchen-Regular.ttf
+445	445.jpg	2 974 453  3 1859338828 431152	fonts/go/NotoSansSyriac-Thin.ttf
+448	448.jpg	243 95	fonts/go/NotoSansHanifiRohingya[wght].ttf
+457	457.jpg	 69   57308 42948472	fonts/go/NotoSansThai[wdth,wght].ttf
+460	460.jpg	20596 90486 310189863 4698114792	fonts/go/NotoSansOldPersian-Regular.ttf
+484	484.jpg	07	fonts/go/NotoSansThaiLooped-ExtraBold.ttf
+504	504.jpg	2598656 6254049910	fonts/go/NotoSerifAhom-Regular.ttf
+505	505.jpg	9065648926	fonts/go/NotoSansThaiLooped-SemiBold.ttf
+526	526.jpg	136 042 4146	fonts/go/LibreBarcode39Text-Regular.ttf
+530	530.jpg	45817227 7 77061  05	fonts/go/NotoSansManichaean-Regular.ttf
+557	557.jpg	945 84 6384323  9 554 2050823	fonts/go/NotoSansSaurashtra-Regular.ttf
+591	591.jpg	3984  434818541 4941875270	fonts/go/NotoSansThaiLooped-Black.ttf
+596	596.jpg	5 544 	fonts/go/NotoSansImperialAramaic-Regular.ttf
+610	610.jpg	066758 59  347 	fonts/go/NotoSansSamaritan-Regular.ttf
+612	612.jpg	9  2762582 7 8	fonts/go/NotoSansMyanmarUI-Black.ttf
+623	623.jpg	35 91 5095 7 438865	fonts/go/Redacted-Regular.ttf
+629	629.jpg	06	fonts/go/NotoSansThaiUI[wdth,wght].ttf
+653	653.jpg	58 4	fonts/go/NotoSansThaiLooped-SemiBold.ttf
+673	673.jpg	7685483 846477707 86 9602946	fonts/go/NotoSerifYezidi[wght].ttf
+702	702.jpg	40929 	fonts/go/NotoSansMyanmarUI-Black.ttf
+759	759.jpg	6659 15 544 0	fonts/go/NotoSansSylotiNagri-Regular.ttf
+786	786.jpg	41 4 4 1  11 15668 1740957	fonts/go/NotoSerifTangut-Regular.ttf
+791	791.jpg	68358 1  7 956325  12269 76 716  87	fonts/go/NotoSerifDogra-Regular.ttf
+793	793.jpg	7581 1896114894 35974369 904  09	fonts/go/NotoMusic-Regular.ttf
+814	814.jpg	33 974498787	fonts/go/NotoSansCoptic-Regular.ttf
+844	844.jpg	6409	fonts/go/NotoSansSyriac-Black.ttf
+862	862.jpg	69348 242 35622188   552 4 538 526	fonts/go/LaoMuangDon-Regular.ttf
+875	875.jpg	887 920504	fonts/go/NotoSansKhojki-Regular.ttf
+902	902.jpg	2 1 725233 4408 79605 696 88156	fonts/go/NotoSerifBalinese-Regular.ttf
+913	913.jpg	94442493 3128 7	fonts/go/NotoSansCham[wght].ttf
+927	927.jpg	9838180146	fonts/go/NotoSansMyanmarUI-Black.ttf
+941	941.jpg	131497944	fonts/go/NotoSerifTangut-Regular.ttf
+970	970.jpg	59724013 4156892	fonts/go/NotoSansUgaritic-Regular.ttf
+986	986.jpg	36  76	fonts/go/NotoSansThaiLooped-Medium.ttf

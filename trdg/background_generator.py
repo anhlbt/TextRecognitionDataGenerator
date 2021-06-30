@@ -3,11 +3,11 @@ import math
 import os
 import random as rnd
 import numpy as np
-
+from skimage import util
 from PIL import Image, ImageDraw, ImageFilter
 
 
-def gaussian_noise(height, width):
+def gaussian_noise(height, width, image_dir="./"):
     """
         Create a background with Gaussian noise (to mimic paper)
     """
@@ -16,12 +16,12 @@ def gaussian_noise(height, width):
     image = np.ones((height, width)) * 255
 
     # We add gaussian noise
-    cv2.randn(image, 235, 10)
+    cv2.randn(image, rnd.randint(190, 240), rnd.randint(0,50))
 
     return Image.fromarray(image).convert("RGBA")
 
 
-def plain_white(height, width):
+def plain_white(height, width, image_dir="./"):
     """
         Create a plain white background
     """
@@ -29,7 +29,7 @@ def plain_white(height, width):
     return Image.new("L", (width, height), 255).convert("RGBA")
 
 
-def quasicrystal(height, width):
+def quasicrystal(height, width, image_dir="./"):
     """
         Create a background with quasicrystal (https://en.wikipedia.org/wiki/Quasicrystal)
     """
@@ -87,3 +87,54 @@ def image(height, width, image_dir):
         return pic.crop((x, y, x + width, y + height))
     else:
         raise Exception("No images where found in the images folder!")
+
+
+def salt_and_pepper(height, width, image_dir="./"):
+
+
+    '''
+    Function: Add a variety of random noise to float pictures
+    Parameters:
+    image: Enter the picture (will be converted to floating point), ndarray type
+    mode: choose,strType indicates the type of noise to be added
+        gaussian: Gaussian noise
+        localvar: additive noise Gaussian distribution with the specified local variance at each point of "image".
+        poisson: Poisson regeneration
+        salt: Salt noise, the pixel value becomes random1
+        pepper: pepper noise, the pixel value becomes random0or-1, Depending on whether the signed value matrix
+        s&p: salt and pepper noise
+        speckle: uniform noise (variance mean mean variance), out=image+n*image
+        
+    seed: Optional,intType, if selected, will generate the noise before the first set in order to avoid pseudo-random random seed
+    clip: Optional,boolType, if it isTrueAfter adding the mean, Poisson and Gaussian noise, clipping the image data will be within an appropriate range. If someoneFalse, Then the value may exceed the output matrix[-1,1]
+    mean: Optional,floatType, mean parameters of the Gaussian noise and the noise mean default value=0
+    var: Alternatively,floatType, mean Gaussian noise and noise variance defaults=0.01(Note: not the standard deviation)
+    local_vars: Alternatively, ndarry type local variance is used to define each pixel, using the localvar
+    amount: Optional,floatType, salt and pepper noise is the proportion of defaults=0.05
+    salt_vs_pepper: Optional,floatType, salt and pepper noise ratio, a larger value indicates more salts of noise, the default value=0.5That the same amount of salt and pepper
+    --------
+    Return Value: ndarry type and value[0,1]or[-1,1]Between, depending on whether there is a signed number
+    -------
+    Note: slightly (see source)
+    '''
+
+
+    # img=Image.open('outputFile.jpg')
+    # img=np.array(img)
+
+    # We create an all white image
+    # image = np.ones((img.shape[0], img.shape[1]))
+    image = np.ones((height, width)) * 255
+
+    noise_gs_img=util.random_noise(image,mode='s&p', amount=rnd.uniform(0, 0.02), salt_vs_pepper=rnd.random()) #or we can write noise on exists image `img`
+    # noise_gs_img=util.random_noise(img,mode='poisson', clip=False)
+
+    noise_gs_img=noise_gs_img*255  # Since the output is [0,1] floating-point, first transferred to greyscale (my input is grayscale)
+    # noise_gs_img=noise_gs_img.astype(np.int)   # Then into an array of integers
+    # cv2.imwrite(os.path.join(save_dir,image_name),noise_gs_img)  # Save the new folder
+
+    return Image.fromarray(noise_gs_img).convert("RGBA")
+
+def random_all(height, width, image_dir):
+    lst_func = [salt_and_pepper, image, quasicrystal, plain_white, gaussian_noise]
+    return rnd.choice(lst_func)(height, width, image_dir)  

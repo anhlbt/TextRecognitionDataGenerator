@@ -3,7 +3,7 @@ import random as rnd
 from PIL import Image, ImageColor, ImageFont, ImageDraw, ImageFilter
 
 
-def generate(
+def generate(is_draw_bounding_box,
     text,
     font,
     text_color,
@@ -17,7 +17,7 @@ def generate(
     stroke_fill="#282828",
 ):
     if orientation == 0:
-        return _generate_horizontal_text(
+        return _generate_horizontal_text(is_draw_bounding_box,
             text,
             font,
             text_color,
@@ -38,13 +38,16 @@ def generate(
         raise ValueError("Unknown orientation " + str(orientation))
 
 
-def _generate_horizontal_text(
+def _generate_horizontal_text(is_draw_bounding_box,
     text, font, text_color, font_size, space_width, character_spacing, fit, word_split, 
     stroke_width=0, stroke_fill="#282828"
 ):
     image_font = ImageFont.truetype(font=font, size=font_size)
-
-    space_width = int(image_font.getsize(" ")[0] * space_width)
+    try:
+        space_width = int(image_font.getsize(" ")[0] * space_width)
+    except Exception as ex:
+        print(font)    
+    # space_width = 1
 
     if word_split:
         splitted_text = []
@@ -89,6 +92,7 @@ def _generate_horizontal_text(
         rnd.randint(min(stroke_c1[2], stroke_c2[2]), max(stroke_c1[2], stroke_c2[2])),
     )
 
+   
     for i, p in enumerate(splitted_text):
         txt_img_draw.text(
             (sum(piece_widths[0:i]) + i * character_spacing * int(not word_split), 0),
@@ -98,14 +102,34 @@ def _generate_horizontal_text(
             stroke_width=stroke_width,
             stroke_fill=stroke_fill,
         )
-        txt_mask_draw.text(
-            (sum(piece_widths[0:i]) + i * character_spacing * int(not word_split), 0),
-            p,
-            fill=((i + 1) // (255 * 255), (i + 1) // 255, (i + 1) % 255),
-            font=image_font,
-            stroke_width=stroke_width,
-            stroke_fill=stroke_fill,
-        )
+
+        #draw bounding box anhlbt
+        bottom = image_font.getsize(p)[1]
+        # r, bottom_2 = image_font.getsize(splitted_text[:i+1])
+        # bottom = bottom_1 if bottom_1> bottom_2 else bottom_2
+        width, height = image_font.getmask(p).size
+        right =sum(piece_widths[0:i+1]) + i * character_spacing * int(not word_split)
+  
+
+        top = bottom - height
+        left = right - width
+
+        if is_draw_bounding_box:
+            # if rnd.randint(0,100) < draw_bounding_box:
+            if p != ' ':
+                txt_img_draw.rectangle((left, top -5, right, bottom +5), None, "#000000")
+
+        try:
+            txt_mask_draw.text(
+                (sum(piece_widths[0:i]) + i * character_spacing * int(not word_split), 0),
+                p,
+                fill=((i + 1) // (255 * 255), (i + 1) // 255, (i + 1) % 255),
+                font=image_font,
+                stroke_width=stroke_width,
+                stroke_fill=stroke_fill,
+            )
+        except Exception as ex:
+            print('error', str(font))    
 
     if fit:
         return txt_img.crop(txt_img.getbbox()), txt_mask.crop(txt_img.getbbox())

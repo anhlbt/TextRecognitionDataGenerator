@@ -23,6 +23,7 @@ class FakeTextDataGenerator(object):
     @classmethod
     def generate(
         cls,
+        draw_bounding_box,
         index,
         text,
         font,
@@ -62,12 +63,14 @@ class FakeTextDataGenerator(object):
         ##########################
         # Create picture of text #
         ##########################
+        is_draw_bounding_box = rnd.randint(0,100) < draw_bounding_box
+        
         if is_handwritten:
             if orientation == 1:
                 raise ValueError("Vertical handwritten text is unavailable")
             image, mask = handwritten_text_generator.generate(text, text_color)
         else:
-            image, mask = computer_text_generator.generate(
+            image, mask = computer_text_generator.generate(is_draw_bounding_box,
                 text,
                 font,
                 text_color,
@@ -166,10 +169,17 @@ class FakeTextDataGenerator(object):
             background_img = background_generator.quasicrystal(
                 background_height, background_width
             )
-        else:
+        elif background_type == 3:
             background_img = background_generator.image(
                 background_height, background_width, image_dir
             )
+        elif background_type == 4:
+            background_img = background_generator.salt_and_pepper(
+                background_height, background_width, image_dir
+            )            
+            
+        else: background_img = background_generator.random_all(background_height, background_width, image_dir)
+
         background_mask = Image.new(
             "RGB", (background_width, background_height), (0, 0, 0)
         )

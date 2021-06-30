@@ -99,7 +99,8 @@ def create_strings_randomly(length, allow_variable, count, let, num, sym, lang):
         else:
             pool += string.ascii_letters
     if num:
-        pool += "0123456789"
+        pool += "0123456789 " #add space
+        letter_pool = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     if sym:
         pool += "!\"#$%&'()*+,-./:;?@[\\]^_`{|}~"
 
@@ -111,11 +112,35 @@ def create_strings_randomly(length, allow_variable, count, let, num, sym, lang):
         max_seq_len = 10
 
     strings = []
+    # for _ in range(0, count):
+    #     current_string = ""
+    #     for _ in range(0, rnd.randint(1, length) if allow_variable else length):
+    #         seq_len = rnd.randint(min_seq_len, max_seq_len)
+    #         current_string += "".join([rnd.choice(pool) for _ in range(seq_len)])
+    #         current_string += " "
+    #     strings.append(current_string[:-1])
+
+
     for _ in range(0, count):
         current_string = ""
         for _ in range(0, rnd.randint(1, length) if allow_variable else length):
             seq_len = rnd.randint(min_seq_len, max_seq_len)
+            letter_len = rnd.randint(min_seq_len, max_seq_len)
+            current_string += "".join([rnd.choice(letter_pool) for _ in range(letter_len)])
+            # current_string += " "
             current_string += "".join([rnd.choice(pool) for _ in range(seq_len)])
             current_string += " "
         strings.append(current_string[:-1])
+
     return strings
+
+    ## default 
+    # corpus = []
+    # for i in range(0, count):
+    #     seq = ''
+    #     num_space = random.randint(1,4)
+    #     for j in range(random.randint(1, 9)):
+    #         seq += str(random.randint(0, 9999)) + ' '*num_space
+    #     corpus.append(seq)
+    # return seq    
+  
