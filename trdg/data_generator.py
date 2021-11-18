@@ -24,6 +24,7 @@ class FakeTextDataGenerator(object):
     def generate(
         cls,
         draw_bounding_box,
+        dataset_name,
         index,
         text,
         font,
@@ -70,7 +71,7 @@ class FakeTextDataGenerator(object):
                 raise ValueError("Vertical handwritten text is unavailable")
             image, mask = handwritten_text_generator.generate(text, text_color)
         else:
-            image, mask = computer_text_generator.generate(is_draw_bounding_box,
+            image, mask = computer_text_generator.generate(is_draw_bounding_box, #text are generated
                 text,
                 font,
                 text_color,
@@ -253,9 +254,9 @@ class FakeTextDataGenerator(object):
 
         # Save the image
         if out_dir is not None:
-            final_image.save(os.path.join(out_dir, image_name))
+            final_image.save(os.path.join(out_dir,dataset_name, image_name))
             if output_mask == 1:
-                final_mask.save(os.path.join(out_dir, mask_name))
+                final_mask.save(os.path.join(out_dir, dataset_name, mask_name))
         else:
             if output_mask == 1:
                 return final_image, final_mask

@@ -24,7 +24,8 @@ def margins(margin):
     margins = margin.split(",")
     if len(margins) == 1:
         return [int(margins[0])] * 4
-    return [int(m) for m in margins]
+    # return [int(m) for m in margins]
+    return [rnd.randint(5, int(m)) for m in margins] 
 
 
 def parse_arguments():
@@ -38,6 +39,11 @@ def parse_arguments():
     parser.add_argument(
         "--output_dir", type=str, nargs="?", help="The output directory", default="out/"
     )
+
+    parser.add_argument(
+        "-dsn",
+        "--dataset_name", type=str, nargs="?", help="the name of dataset in output directory", default="dataset"
+    )    
     parser.add_argument(
         "-i",
         "--input_file",
@@ -240,7 +246,7 @@ def parse_arguments():
         type=str,
         nargs="?",
         help="Define the text's color, should be either a single hex color or a range in the ?,? format.",
-        default="#282828",
+        default= '#000000,#FFFFFF', #"#282828",
     )
     parser.add_argument(
         "-sw",
@@ -256,7 +262,7 @@ def parse_arguments():
         type=int,
         nargs="?",
         help="Define the width of the spaces between characters. 2 means two pixels",
-        default=10,
+        default=0,
     )
     parser.add_argument(
         "-dbb",
@@ -272,7 +278,7 @@ def parse_arguments():
         type=margins,
         nargs="?",
         help="Define the margins around the text when rendered. In pixels",
-        default=(5, 5, 5, 5),
+        default=(5, 50, 5, 50), #margin_top, margin_left, margin_bottom, margin_right
     )
     parser.add_argument(
         "-fi",
@@ -353,7 +359,7 @@ def main():
 
     # Create the directory if it does not exist.
     try:
-        os.makedirs(args.output_dir)
+        os.makedirs(os.path.join(args.output_dir, args.dataset_name))
     except OSError as e:
         if e.errno != errno.EEXIST:
             raise
@@ -392,7 +398,7 @@ def main():
     elif args.input_file != "":
         strings = create_strings_from_file(args.input_file, args.count)
     elif args.random_sequences:
-        strings = create_strings_randomly(  #use here anhlbt
+        strings = create_strings_randomly(  #use here, generate number 
 
             args.length,
             args.random,
@@ -435,6 +441,7 @@ def main():
             FakeTextDataGenerator.generate_from_tuple,
             zip(
                 [args.draw_bounding_box] * string_count,
+                [args.dataset_name] * string_count,
                 [i for i in range(0, string_count)],
                 strings,
                 font_lst,
@@ -474,10 +481,10 @@ def main():
     if args.name_format == 2:
         # Create file with filename-to-label connections
         with open(
-            os.path.join(args.output_dir, "labels.txt"), "w", encoding="utf8"
+            os.path.join(args.output_dir, "{}_labels.csv".format(args.dataset_name)), "w", encoding="utf8"
         ) as f:
             for i in range(string_count):
-                file_name = str(i) + "." + args.extension
+                file_name = os.path.join(args.dataset_name, str(i)) + "." + args.extension
                 if args.space_width == 0:
                     file_name = file_name.replace(" ", "")
                 # f.write("{}\t{}\t{}\n".format(file_name, strings[i], font_lst[i]))

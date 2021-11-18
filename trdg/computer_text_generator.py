@@ -81,6 +81,7 @@ def _generate_horizontal_text(is_draw_bounding_box,
         rnd.randint(min(c1[0], c2[0]), max(c1[0], c2[0])),
         rnd.randint(min(c1[1], c2[1]), max(c1[1], c2[1])),
         rnd.randint(min(c1[2], c2[2]), max(c1[2], c2[2])),
+        rnd.randint(50, 255) #alpha
     )
 
     stroke_colors = [ImageColor.getrgb(c) for c in stroke_fill.split(",")]
@@ -115,7 +116,6 @@ def _generate_horizontal_text(is_draw_bounding_box,
         left = right - width
 
         if is_draw_bounding_box:
-            # if rnd.randint(0,100) < draw_bounding_box:
             if p != ' ':
                 txt_img_draw.rectangle((left, top -5, right, bottom +5), None, "#000000")
 

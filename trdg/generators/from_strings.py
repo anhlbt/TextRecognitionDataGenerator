@@ -10,6 +10,7 @@ class GeneratorFromStrings:
     def __init__(
         self,
         draw_bounding_box,
+        dataset_name,
         strings,
         count=-1,
         fonts=[],
@@ -41,6 +42,7 @@ class GeneratorFromStrings:
         image_mode="RGB",
     ):
         self.draw_bounding_box = draw_bounding_box
+        self.dataset_name = dataset_name
         self.count = count
         self.strings = strings
         self.fonts = fonts
@@ -83,7 +85,7 @@ class GeneratorFromStrings:
             raise StopIteration
         self.generated_count += 1
         return (
-            FakeTextDataGenerator.generate(self.draw_bounding_box,
+            FakeTextDataGenerator.generate(self.draw_bounding_box, self.dataset_name,
                 self.generated_count,
                 self.strings[(self.generated_count - 1) % len(self.strings)],
                 self.fonts[(self.generated_count - 1) % len(self.fonts)],
