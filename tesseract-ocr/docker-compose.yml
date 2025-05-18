@@ -1,0 +1,20 @@
+services:
+  tesseract:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tesseract_training
+    volumes:
+      - ./data:/tesseract/tesstrain/data
+      - ./tessdata:/usr/local/share/tessdata
+      - /usr/share/fonts:/usr/share/fonts:ro  # Mount thư mục fonts (read-only)
+    environment:
+      - TESSDATA_PREFIX=/usr/local/share/tessdata/
+    command: /bin/bash -c "/tesseract/tesstrain/train.sh"
+    # user: "1000:1000"  # Thay bằng UID:GID của user host   
+
+    # docker run --rm -it -v "$(pwd)/data:/tesseract/tesstrain/data" tesseract-ocr-tesseract /bin/bash
+# docker run --rm -it \
+#   -v "$(pwd)/data:/tesseract/tesstrain/data" \
+#   -v /usr/share/fonts:/usr/share/fonts:ro \
+#   tesseract-ocr-tesseract /bin/bash
