@@ -101,3 +101,5 @@ ENV/
 .mypy_cache/
 
 .vscode/*
+tesseract-ocr/data/multi_lang-ground-truth
+trdg/out

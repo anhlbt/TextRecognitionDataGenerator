@@ -1,7 +1,12 @@
 import os
+from typing import List, Tuple
 
-from ..data_generator import FakeTextDataGenerator
-from ..utils import load_dict, load_fonts
+from trdg.data_generator import FakeTextDataGenerator
+from trdg.utils import load_dict, load_fonts
+
+# support RTL
+from arabic_reshaper import ArabicReshaper
+from bidi.algorithm import get_display
 
 
 class GeneratorFromStrings:
@@ -9,37 +14,39 @@ class GeneratorFromStrings:
 
     def __init__(
         self,
-        draw_bounding_box,
-        dataset_name,
-        strings,
-        count=-1,
-        fonts=[],
-        language="en",
-        size=32,
-        skewing_angle=0,
-        random_skew=False,
-        blur=0,
-        random_blur=False,
-        background_type=0,
-        distorsion_type=0,
-        distorsion_orientation=0,
-        is_handwritten=False,
-        width=-1,
-        alignment=1,
-        text_color="#282828",
-        orientation=0,
-        space_width=1.0,
-        character_spacing=0,
-        margins=(5, 5, 5, 5),
-        fit=False,
-        output_mask=False,
-        word_split=False,
-        image_dir=os.path.join(
+        draw_bounding_box: int=10,
+        dataset_name: str = "default",
+        strings: List[str] = [''],
+        count: int = -1,
+        fonts: List[str] = [],
+        language: str = "en",
+        size: int = 32,
+        skewing_angle: int = 0,
+        random_skew: bool = False,
+        blur: int = 0,
+        random_blur: bool = False,
+        background_type: int = 0,
+        distorsion_type: int = 0,
+        distorsion_orientation: int = 0,
+        is_handwritten: bool = False,
+        width: int = -1,
+        alignment: int = 1,
+        text_color: str = "#282828",
+        orientation: int = 0,
+        space_width: float = 1.0,
+        character_spacing: int = 0,
+        margins: Tuple[int, int, int, int] = (5, 5, 5, 5),
+        fit: bool = False,
+        output_mask: bool = False,
+        word_split: bool = False,
+        image_dir: str = os.path.join(
             "..", os.path.split(os.path.realpath(__file__))[0], "images"
         ),
         stroke_width=0, 
         stroke_fill="#282828",
         image_mode="RGB",
+        output_bboxes = 0,
+        rtl = False,
     ):
         self.draw_bounding_box = draw_bounding_box
         self.dataset_name = dataset_name
@@ -48,6 +55,18 @@ class GeneratorFromStrings:
         self.fonts = fonts
         if len(fonts) == 0:
             self.fonts = load_fonts(language)
+        self.rtl = rtl
+        self.orig_strings = []
+        if self.rtl:
+            if language == "ckb":
+                ar_reshaper_config = {"delete_harakat": True, "language": "Kurdish"}
+            else:
+                ar_reshaper_config = {"delete_harakat": False}
+            self.rtl_shaper = ArabicReshaper(configuration=ar_reshaper_config)
+            # save a backup of the original strings before arabic-reshaping
+            self.orig_strings = self.strings
+            # reshape the strings
+            self.strings = self.reshape_rtl(self.strings, self.rtl_shaper)
         self.language = language
         self.size = size
         self.skewing_angle = skewing_angle
@@ -69,10 +88,11 @@ class GeneratorFromStrings:
         self.output_mask = output_mask
         self.word_split = word_split
         self.image_dir = image_dir
+        self.output_bboxes = output_bboxes
         self.generated_count = 0
         self.stroke_width = stroke_width
         self.stroke_fill = stroke_fill
-        self.image_mode = image_mode 
+        self.image_mode = image_mode
 
     def __iter__(self):
         return self
@@ -114,7 +134,25 @@ class GeneratorFromStrings:
                 self.image_dir,
                 self.stroke_width,
                 self.stroke_fill,
-                self.image_mode, 
+                self.image_mode,
+                self.output_bboxes,
             ),
-            self.strings[(self.generated_count - 1) % len(self.strings)],
+            self.orig_strings[(self.generated_count - 1) % len(self.orig_strings)]
+            if self.rtl
+            else self.strings[(self.generated_count - 1) % len(self.strings)],
         )
+
+    def reshape_rtl(self, strings: list, rtl_shaper: ArabicReshaper):
+        # reshape RTL characters before generating any image
+        rtl_strings = []
+        for string in strings:
+            reshaped_string = rtl_shaper.reshape(string)
+            rtl_strings.append(get_display(reshaped_string))
+        return rtl_strings
+
+
+if __name__ == "__main__":
+    from trdg.generators.from_wikipedia import GeneratorFromWikipedia
+
+    s = GeneratorFromWikipedia("test")
+    next(s)
